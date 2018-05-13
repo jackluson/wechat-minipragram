@@ -1,0 +1,21 @@
+<style lang="less">
+</style>
+<template lang="wxml" minapp="native">
+  <view class="container">
+  <view class="search">
+   <input placeholder="搜索"/>
+  </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '优购',
+      navigationBarBackgroundColor: '#ff2d4a'
+    }
+    onLoad() {
+      console.log('onLoad')
+    }
+  }
+</script>

@@ -1,0 +1,22 @@
+<template>
+<view class="container">
+  Hello wod
+</view>
+</template>
+
+<style lang="less">
+
+</style>
+<script>
+import wepy from 'wepy'
+
+export default class Cart extends wepy.page {
+  config = {
+    navigationBarTitleText: '优购',
+    navigationBarBackgroundColor: '#ff2d4a'
+  }
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>
