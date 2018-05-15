@@ -1,28 +1,44 @@
 <style lang="less">
+page{
+  background: #f4f4f4;
+  font-size:24rpx;
+
+}
+image{
+  vertical-align:top;
+}
 </style>
 <script>
 import wepy from 'wepy'
-
+import 'wepy-async-function'
 export default class extends wepy.app {
+  constructor () {
+    super()
+    this.use('promisify')
+  }
   config = {
+
     pages: [
       'pages/index',
       'pages/category',
       'pages/show',
       'pages/cart',
-      'pages/me'
+      'pages/me',
+      'pages/goods_detail',
+      'pages/goods_list',
+      'pages/orders'
     ],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'white',
       navigationBarBackgroundColor: '#ff2d4a',
       navigationBarTitleText: '优购',
       navigationBarTextStyle: 'white',
       enablePullDownRefresh: true
     },
     tabBar: {
-      // 'color': '#7A7E83',
-      // 'selectedColor': '#3cc51f',
-      // 'borderStyle': 'black',
+      'color': '#111',
+      'selectedColor': '#ff2d4a',
+      'borderStyle': 'black',
       'backgroundColor': '#ffffff',
       'list': [{
         'pagePath': 'pages/index',
@@ -40,19 +56,19 @@ export default class extends wepy.app {
         'pagePath': 'pages/show',
         'iconPath': '/images/icon_show@3x.png',
         'selectedIconPath': '/images/icon_show_active@3x.png',
-        'text': '分类'
+        'text': '优show'
       },
       {
         'pagePath': 'pages/cart',
         'iconPath': '/images/icon_cart@3x.png',
         'selectedIconPath': '/images/icon_cart_active@3x.png',
-        'text': '分类'
+        'text': '购物车'
       },
       {
         'pagePath': 'pages/me',
         'iconPath': '/images/icon_me@3x.png',
         'selectedIconPath': '/images/icon_me_active@3x.png',
-        'text': '分类'
+        'text': '个人中心'
       }
       ]
     }
