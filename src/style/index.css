@@ -46,8 +46,11 @@
   width: 232rpx;
   height: 386rpx;
 }
+.container .floor-body-right {
+  display: flex;
+  flex-wrap: wrap;
+}
 .container .floor-body-right-img {
-  width: 233rpx;
   height: 188rpx;
   padding: 0 0 10rpx 10rpx;
 }
@@ -66,4 +69,23 @@
 .container .floor-bottom-img {
   width: 750rpx;
   height: 180rpx;
+}
+.container .top {
+  position: fixed;
+  right: 30rpx;
+  bottom: 120rpx;
+  background-color: #ffffff;
+  opacity: .6;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 10rpx;
+}
+.container .top image {
+  display: block;
+  width: 30rpx;
+  height: 25rpx;
+  margin: 0 auto;
 }

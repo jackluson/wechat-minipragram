@@ -1,12 +1,11 @@
 <template lang="wxml">
 <view class="container">
 <SearchBar value="{{searchText}}" :holderTitle="holderVal"></SearchBar>
-  <swiper
+  <swiper indicator-active-color="#fff"
     indicator-dots
     autoplay
     circular
-    vertical
-    indicator-color="white"
+    indicator-color="#000"
   >
     <block
       wx:for="{{brandList}}"
@@ -48,79 +47,45 @@
         <!-- 楼层部份开始 -->
         <view class="floor">
         <!-- 第一楼 -->
+          <block wx:for="{{floorList}}" wx:key="index">
+
+
           <view class="floor-head">
             <image
               class="floor-head-img"
-              src="/upload/pic_floor01_title@2x.png"
+              src="{{item.floor_title.image_src}}"
             ></image>
           </view>
           <view class="floor-body">
-            <view class="floor-body-left">
-              <navigator url="">
-                <image src="/upload/pic_floor01_1@2x.png" class="floor-body-left-img">
+            <block wx:for="{{item.product_list}}" wx:key="index" >
+            <view class="floor-body-left" wx:if="{{index<1}}">
+              <navigator url='{{item.navigator_url}}' open-type="{{item.open_type}}" >
+                <image src="{{item.image_src}}" class="floor-body-left-img" style="width:{{item.image_width}}rpx">
                 </image>
               </navigator>
             </view>
+            </block>
             <view class="floor-body-right">
-                <image class="floor-body-right-img" src="/upload/pic_floor01_2@2x.png"></image>
-                <image class="floor-body-right-img" src="/upload/pic_floor01_3@2x.png"></image>
-                <image class="floor-body-right-img" src="/upload/pic_floor01_4@2x.png"></image>
-                <image class="floor-body-right-img" src="/upload/pic_floor01_5@2x.png"></image>
+              <block wx:for="{{item.product_list}}" wx:key="index" wx:if="{{index>0}}">
+                <navigator url='{{item.navigator_url}}' open-type="{{item.open_type}}" >
+                  <image class="floor-body-right-img" src="{{item.image_src}}" style="width:{{item.image_width}}rpx"></image>
+                </navigator>
+              </block>
             </view>
           </view>
           <!-- 第一楼底部 -->
-          <view class="floor-bottom">
+          <view class="floor-bottom" wx:if="{{index<1}}" >
             <image
               class="floor-bottom-img"
               src="/upload/pic_banner_small.png"
             ></image>
           </view>
-          <!-- 第二楼 -->
-          <view class="floor-head">
-            <image
-              class="floor-head-img"
-              src="/upload/pic_floor02_title@2x.png"
-            ></image>
-          </view>
-          <view class="floor-body">
-            <view class="floor-body-left">
-              <navigator url="">
-                <image src="/upload/pic_floor02_1@2x.png" class="floor-body-left-img">
-                </image>
-              </navigator>
-            </view>
-            <view class="floor-body-first">
-                <image class="floor-body-first-img" src="/upload/pic_floor02_2@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor02_3@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor02_4@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor02_5@2x.png"></image>
-            </view>
-          </view>
-          <!-- 第三楼 -->
-          <view class="floor-head">
-            <image
-              class="floor-head-img"
-              src="/upload/pic_floor03_title@2x.png"
-            ></image>
-          </view>
-          <view class="floor-body">
-            <view class="floor-body-left">
-              <navigator url="">
-                <image src="/upload/pic_floor03_1@2x.png" class="floor-body-left-img">
-                </image>
-              </navigator>
-            </view>
-            <view class="floor-body-first">
-                <image class="floor-body-first-img" src="/upload/pic_floor03_2@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor03_3@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor03_4@2x.png"></image>
-                <image class="floor-body-first-img" src="/upload/pic_floor03_5@2x.png"></image>
-            </view>
-          </view>
-
-
-
-        </view>
+        </block>
+    </view>
+    <view class="top" @tap="toTop">
+      <image src="/images/arrow_top@2x.png"></image>
+      <text>顶部</text>
+    </view>
 </view>
 </template>
 
@@ -132,6 +97,9 @@
 <script>
 import wepy from 'wepy'
 import SearchBar from '../components/searchbar'
+import 'wepy-async-function'
+// import wxRequest from '../utils/wxRequest'
+import api from '../api/api'
 export default class Index extends wepy.page {
   config = {
     navigationBarTitleText: '优购',
@@ -139,52 +107,46 @@ export default class Index extends wepy.page {
   }
   onLoad() {
     console.log('onLoad')
-    /* eslint-disable */
-    // console.log('=' + $SearchBar$inputVal)
-    wepy.request({
-      url: 'https://itjustfun.cn/api/public/v1/home/swiperdata', // 开发者服务器接口地址",
-      method: 'GET',
-      dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-      success: res => {
-        if (res.statusCode === 200) {
-          console.log(res.data.data)
-          this.brandList = res.data.data
-          // 小程序默认是单向数据绑定,wepy需要手动触发
-          this.$apply()
-        }
-      },
-      fail: () => {}
+    // 请求轮播图数据
+    api.getHomeSwiper().then(res => {
+      // console.log(res)
+      this.brandList = res.data
+      this.$apply()
     })
-    wepy.request({
-      url: 'https://itjustfun.cn/api/public/v1/home/catitems', // 开发者服务器接口地址",
-      data: '', // 请求的参数",
-      method: 'GET',
-      dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-      success: res => {
-        if (res.statusCode === 200) {
-          console.log(res.data.data)
-          this.navList = res.data.data
-          // 小程序默认是单向数据绑定,wepy需要手动触发
-          this.$apply()
-        }
-      },
-      fail: () => {}
+    // 分类导航请求数据
+    api.getHomeCatitems().then(res => {
+      this.navList = res.data
+      this.$apply()
     })
-    wepy.request({
-      url: 'https://itjustfun.cn/api/public/v1/home/floordata', // 开发者服务器接口地址",
-      data: '', // 请求的参数",
-      method: 'GET',
-      dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
-      success: res => {
-        if (res.statusCode === 200) {
-          console.log(res.data.data)
-          this.floorList = res.data.data
-          // 小程序默认是单向数据绑定,wepy需要手动触发
-          this.$apply()
-        }
-      },
-      fail: () => {}
+    // 分类导航请求数据
+    api.getHomeFloor().then(res => {
+      this.floorList = res.data
+      this.$apply()
     })
+
+    // wxRequest('home/catitems').then(res => {
+    //     if (res.statusCode === 200) {
+    //       console.log(res.data.data)
+    //       this.navList = res.data.data
+    //       // 小程序默认是单向数据绑定,wepy需要手动触发
+    //       this.$apply()
+    //     }
+    //   })
+    // wepy.request({
+    //   url: 'https://itjustfun.cn/api/public/v1/home/floordata', // 开发者服务器接口地址",
+    //   data: '', // 请求的参数",
+    //   method: 'GET',
+    //   dataType: 'json', // 如果设为json，会尝试对返回的数据做一次 JSON.parse
+    // }).then((res) => {
+    //   if (res.statusCode === 200) {
+    //       console.log(res.data.data)
+    //       this.floorList = res.data.data
+    //       // 小程序默认是单向数据绑定,wepy需要手动触发
+    //       this.$apply()
+    //     }
+    // }).catch((err) => {
+
+    // });
     /* eslint-disable */
   }
   data = {
@@ -195,6 +157,16 @@ export default class Index extends wepy.page {
     searchText: '搜索',
     floorList: [],
     holderVal:"请输入关键词"
+  }
+  // 定义方法
+  methods = {
+    toTop(){
+      // console.log('tji');
+      wx.pageScrollTo({
+        scrollTop: 0,
+        duration: 300
+      })
+    }
   }
   // 引入的功能性组件
   components={

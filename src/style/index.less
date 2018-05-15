@@ -48,8 +48,10 @@
                 }
             }
             &-right {
+                display: flex;
+                flex-wrap: wrap;
                 &-img {
-                    width: 233rpx;
+                    // width: 233rpx;
                     height: 188rpx;
                     padding: 0 0 10rpx 10rpx;
                 }
@@ -75,5 +77,24 @@
                 height: 180rpx;
             }
         }
+    }
+    .top{
+      position: fixed;
+      right: 30rpx;
+      bottom: 120rpx;
+      background-color: rgb(255, 255, 255);
+      opacity: .6;
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: 50%;
+      text-align: center;
+      box-sizing: border-box;
+      padding-top: 10rpx;
+      image{
+        display: block;
+        width: 30rpx;
+        height: 25rpx;
+        margin: 0 auto;
+      }
     }
 }
