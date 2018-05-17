@@ -2,7 +2,7 @@
  * @Author: Jack Lu
  * @Date: 2018-05-15 10:22:57
  * @Last Modified by: Jack Lu
- * @Last Modified time: 2018-05-15 11:28:56
+ * @Last Modified time: 2018-05-17 09:09:37
  */
 import wepy from 'wepy'
 import 'wepy-async-function'

@@ -1,0 +1,61 @@
+<!--  -->
+<template>
+  <view class='search-bar'>
+    <navigator hover-class='none' class='search-bar-link' url='/pages/goods_list' open-type="navigate">
+    <icon class='search-bar-link-icon' type='search' size='15'/>
+    <text class="search-bar-link-text">搜索</text>
+    </navigator>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class SearchFrame extends wepy.component {
+    props = {}
+
+    data = {}
+
+    components = {}
+
+    methods = {}
+
+    events = {}
+
+    watch = {}
+
+    computed = {}
+
+    onLoad() {}
+
+    onShow() {}
+  }
+</script>
+
+<style lang='less'>
+  .search-bar {
+    position: fixed;
+    top: 0rpx;
+    left: 0;
+    width: 750rpx;
+    background: #ff2d4a;
+    padding:15rpx 0;
+    color: #9b9b9b;
+    &-link {
+      display: flex;
+      justify-content: center;
+      background: white;
+      width: 710rpx;
+      margin: 0 20rpx;
+      padding-top: 15rpx;
+      box-sizing: border-box;
+      height: 58rpx;
+      border-radius: 7rpx;
+      &-icon{
+        margin-right: 15rpx;
+      }
+      &-text{
+        margin-top:-2rpx;
+      }
+    }
+  }
+</style>

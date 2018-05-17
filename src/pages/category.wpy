@@ -1,6 +1,6 @@
 <template>
 <view class="container">
-  Hello wod
+  <SearchFrame></SearchFrame>
 </view>
 </template>
 
@@ -9,7 +9,7 @@
 </style>
 <script>
 import wepy from 'wepy'
-
+import SearchFrame from '../components/search-bar'
 export default class Category extends wepy.page {
   config = {
     navigationBarTitleText: '优购',
@@ -17,6 +17,11 @@ export default class Category extends wepy.page {
   }
   onLoad() {
     console.log('onLoad')
+  }
+    // 引入的功能性组件
+  components={
+    // SearchBar,
+    SearchFrame
   }
 }
 </script>

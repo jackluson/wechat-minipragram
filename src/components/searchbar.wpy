@@ -54,7 +54,7 @@
 <script>
 import wepy from 'wepy'
 
-export default class Searchbar extends wepy.page {
+export default class Searchbar extends wepy.component {
   data = {
     inputShowed: false,
     inputVal: '',

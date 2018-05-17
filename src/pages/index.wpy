@@ -1,5 +1,6 @@
 <template lang="wxml">
 <view class="container">
+<SearchFrame></SearchFrame>
 <SearchBar value="{{searchText}}" :holderTitle="holderVal"></SearchBar>
   <swiper indicator-active-color="#fff"
     indicator-dots
@@ -82,9 +83,13 @@
           </view>
         </block>
     </view>
-    <view class="top" @tap="toTop">
-      <image src="/images/arrow_top@2x.png"></image>
+    <view class="top" @tap="toTop" wx:if="{{ isDisplayTop }}">
+      <image class="top-img" src="/images/arrow_top@2x.png"></image>
       <text>顶部</text>
+    </view>
+    <view class="end">
+      <view class="iconfont icon-xiaolian"></view>
+      <text class="end-text">我是有底线的</text>
     </view>
 </view>
 </template>
@@ -96,8 +101,9 @@
 
 <script>
 import wepy from 'wepy'
+// import 'wepy-async-function'
 import SearchBar from '../components/searchbar'
-import 'wepy-async-function'
+import SearchFrame from '../components/search-bar'
 // import wxRequest from '../utils/wxRequest'
 import api from '../api/api'
 export default class Index extends wepy.page {
@@ -123,7 +129,6 @@ export default class Index extends wepy.page {
       this.floorList = res.data
       this.$apply()
     })
-
     // wxRequest('home/catitems').then(res => {
     //     if (res.statusCode === 200) {
     //       console.log(res.data.data)
@@ -149,6 +154,15 @@ export default class Index extends wepy.page {
     // });
     /* eslint-disable */
   }
+    onPageScroll(e){
+      // console.log(e);
+      if(e.scrollTop > 300){
+        this.isDisplayTop = true
+      }else {
+        this.isDisplayTop = false
+      }
+      this.$apply();
+  }
   data = {
     brandList: [
     ],
@@ -156,7 +170,8 @@ export default class Index extends wepy.page {
     ],
     searchText: '搜索',
     floorList: [],
-    holderVal:"请输入关键词"
+    holderVal:"请输入关键词",
+    isDisplayTop:false
   }
   // 定义方法
   methods = {
@@ -166,11 +181,12 @@ export default class Index extends wepy.page {
         scrollTop: 0,
         duration: 300
       })
-    }
+    },
   }
   // 引入的功能性组件
   components={
-    SearchBar
+    SearchBar,
+    SearchFrame
   }
 }
 </script>
