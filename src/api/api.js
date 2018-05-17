@@ -2,7 +2,7 @@
  * @Author: Jack Lu
  * @Date: 2018-05-15 10:54:52
  * @Last Modified by: Jack Lu
- * @Last Modified time: 2018-05-15 14:47:03
+ * @Last Modified time: 2018-05-17 15:09:13
  */
 import appConfig from '../utils/appConfig'
 import wxRequest from '../utils/wxRequest'
@@ -23,10 +23,15 @@ const getHomeCatitems = params => {
 const getHomeFloor = params => {
   return wxRequest('home/floordata', params).then(res => res.data)
 }
+// todo 4.商品详情
+const getGoodsDetail = params => {
+  return wxRequest('goods/detail', params).then(res => res.data)
+}
 
 // 整体导出
 export default {
   getHomeSwiper,
   getHomeCatitems,
-  getHomeFloor
+  getHomeFloor,
+  getGoodsDetail
 }

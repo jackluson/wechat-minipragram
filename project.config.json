@@ -1,7 +1,7 @@
 {
 	"description": "A WePY project",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -11,5 +11,33 @@
 	"appid": "wx2cc09dc955ac6479",
 	"projectname": "wepyshop",
 	"miniprogramRoot": "./dist",
-	"condition": {}
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": 1,
+					"name": "goods-detail",
+					"pathName": "pages/goods_detail",
+					"query": "goods_id=55578",
+					"scene": "1001"
+				}
+			]
+		}
+	}
 }

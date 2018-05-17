@@ -1,0 +1,225 @@
+@import "./iconfont.less";
+// 导入富文本插件样式
+@import "../plugins/wxParse/wxParse.wxss";
+.swiper,
+.swiper-img {
+    width: 750rpx;
+    height: 720rpx;
+}
+
+.product-info {
+    height: 300rpx;
+    background-color: #fff;
+    padding: 0 16rpx;
+}
+
+.product-head {
+    height: 38rpx;
+    padding: 40rpx 0;
+    .price {
+        color: #ff2d4a;
+        font-size: 50rpx;
+        margin-left: -10rpx;
+    }
+    .old-price {
+        color: #999;
+        font-size: 26rpx;
+    }
+}
+
+.product-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .product-name {
+        font-size: 34rpx;
+        width: 546rpx;
+        height: 88rpx;
+        line-height: 1.3;
+        /* 多行文字隐藏省略号 */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        // -webkit-box-orient: vertical;
+        // -webkit-line-clamp: 2;
+    }
+    .product-like {
+        width: 50rpx;
+        height: 78rpx;
+        border-left: 1rpx solid #ddd;
+        padding-left: 46rpx;
+        margin-right: 30rpx;
+        color: #999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .icon-shoucang {
+        width: 32rpx;
+        height: 32rpx;
+        margin-top: 10rpx;
+    }
+}
+
+.product-foot {
+    font-size: 30rpx;
+    color: #999;
+    margin-top: 34rpx;
+}
+
+.part {
+    background-color: #fff;
+    margin: 20rpx 0;
+    font-size: 32rpx;
+    color: #999;
+    &-item {
+        display: flex;
+        padding: 28rpx 16rpx;
+        position: relative;
+        align-items: center;
+    }
+    &-line:after {
+        content: '';
+        height: 1rpx;
+        width: 734rpx;
+        background-color: #ddd;
+        display: block;
+        position: absolute;
+        bottom: -1rpx;
+    }
+    .note {
+        color: #333;
+        margin-right: 40rpx;
+    }
+    .description {
+        width: 490rpx;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+    }
+    .icon-jiantouyou {
+        width: 25rpx;
+        height: 25rpx;
+        color: #ccc;
+        position: absolute;
+        right: 46rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.tabs-head {
+    height: 100rpx;
+    background-color: #fff;
+    display: flex;
+}
+
+.tabs-head .tabs-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30rpx;
+    position: relative;
+}
+
+.tabs-head .active {
+    color: #ff2d4a;
+    font-weight: 400;
+}
+
+.tabs-head .active:after {
+    content: '';
+    height: 12rpx;
+    width: 100%;
+    background-color: #ff2d4a;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.tabs-body {
+    padding: 16rpx;
+    padding-bottom: 250rpx;
+}
+
+.param-item {
+    padding: 30rpx 0;
+    font-size: 28rpx;
+    display: flex;
+    align-items: center;
+}
+
+.param-item .note {
+    width: 150rpx;
+    color: #999;
+}
+
+.param-item .description {
+    width: 568rpx;
+    line-height: 1.3;
+}
+
+.fixed-bar {
+    width: 750rpx;
+    height: 98rpx;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fixed-bar .item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fixed-bar .item .iconfont {
+    width: 40rpx;
+    height: 40rpx;
+    font-size: 40rpx;
+    color: #999;
+}
+
+.fixed-bar .item .item-note {
+    margin-top: 10rpx;
+    font-size: 22rpx;
+    color: #666;
+}
+
+.fixed-bar .btn-group {
+    display: flex;
+}
+
+.fixed-bar .btn {
+    width: 213rpx;
+    height: 98rpx;
+    line-height: 98rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #fff;
+}
+
+.yellow-button {
+    background-color: #ffb400;
+}
+
+.red-button {
+    background-color: #ff2d4a;
+}
+
+.wxParse-content {
+    padding: 55rpx;
+    .wxParse-a {
+        display: none;
+    }
+}

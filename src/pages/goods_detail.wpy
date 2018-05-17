@@ -1,22 +1,187 @@
 <template>
 <view class="container">
-  Hello wod
+  <swiper
+    class="swiper"
+    indicator-dots="true"
+    indicator-color="rgba(255,255,255,.5)"
+    indicator-active-color="#ffffff"
+    interval="2500"
+    autoplay="true"
+    circular="true"
+  >
+    <block
+      wx:for='{{goodsDetail.pics}}'
+      wx:key='{{index}}'
+    >
+      <swiper-item @tap='previewImg({{item.pics_big}})'>
+        <image
+          class="swiper-img"
+          src="{{item.pics_big}}"
+        />
+      </swiper-item>
+      </block>
+      </swiper>
+      <view class="product-info">
+        <view class="product-head">
+          <text class="price">{{goodsDetail.goods_price}}</text>
+        </view>
+        <view class="product-body">
+          <view class="product-name">
+            {{goodsDetail.goods_name}}
+          </view>
+          <view class="product-like">
+            <view class="iconfont icon-shoucang"></view>
+            <view>收藏</view>
+          </view>
+        </view>
+        <view class="product-foot">
+          快递：<text>免运费</text>
+        </view>
+      </view>
+      <view class="part">
+        <view class="part-item part-line">
+          <text class="note">促销</text><text class="description color-main">满300减30元</text>
+        </view>
+        <view class="part-item">
+          <text class="note">已选</text><text class="description">黑色/S/1件</text>
+        </view>
+      </view>
+      <view class="part">
+        <view class="part-item">
+          <text class="note">送至</text><text class="description">广东省广州市天河区珠吉路58号津安创意园传智播客</text>
+          <view class="iconfont icon-jiantouyou"></view>
+        </view>
+      </view>
+
+      <view class="tabs">
+        <view class="tabs-head">
+          <view
+            class="tabs-item {{ isActive? 'active' : '' }} "
+            @tap="toggleTabs(1)"
+          >
+            图文详情
+        </view>
+        <view
+          class="tabs-item {{ !isActive? 'active' : '' }} "
+          @tap="toggleTabs(2)"
+        >
+          规格参数
+      </view>
 </view>
+<view class="tabs-body">
+  <view
+    class="tabs-content"
+    hidden="{{!isActive}}"
+  >
+    商品图文展示
+    <import src="/plugins/wxParse/wxParse.wxml" />
+    <!-- //这里data中article为bindName -->
+    <template
+      is="wxParse"
+      data="{{wxParseData:detailsData.nodes}}"
+    />
+</view>
+<view
+  class="tabs-content"
+  hidden="{{isActive}}"
+>
+    <view class="param-item">
+        <text class="note">商品名称</text>
+        <text class="description">复古撞色运动外套男女情侣校服立领夹文字自动换行</text>
+      </view>
+      <view class="param-item">
+        <text class="note">品牌</text>
+        <text class="description">初语</text>
+      </view>
+      <view class="param-item">
+        <text class="note">编号</text>
+        <text class="description">BR1005</text>
+      </view>
+      <view class="param-item">
+        <text class="note">颜色</text>
+        <text class="description">黑色 / 白色 / 灰色</text>
+      </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="fixed-bar">
+    <view class="item">
+      <view class="iconfont icon-kefu"></view>
+      <text class="item-note">联系客服</text>
+    </view>
+    <view class="item">
+      <view class="iconfont icon-icongouwuche"></view>
+      <text class="item-note">购物车</text>
+    </view>
+    <view class="btn-group">
+      <view class="btn yellow-button">加入购物车</view>
+      <view class="btn red-button">立即购买</view>
+    </view>
+  </view>
+  </view>
 </template>
 
 <style lang="less">
-
+  @import '../style/goods-detail.less';
 </style>
 <script>
-import wepy from 'wepy'
-
-export default class GoodsDetail extends wepy.page {
-  config = {
-    navigationBarTitleText: '优购',
-    navigationBarBackgroundColor: '#ff2d4a'
+  import wepy from 'wepy'
+  import api from '../api/api'
+  import WxParse from '../plugins/wxParse/wxParse.js'
+  export default class GoodsDetail extends wepy.page {
+    config = {
+      navigationBarTitleText: '商品详细',
+      navigationBarBackgroundColor: '#ff2d4a'
+    }
+    data = {
+      goodsDetail: null,
+      isActive: true
+    }
+    methods = {
+      previewImg(currentImg) {
+        console.log(currentImg)
+        let previewImageUrlsArr = []
+        this.goodsDetail.pics.forEach(item => {
+          previewImageUrlsArr.push(item.pics_big)
+        })
+        // console.log(previewImageUrlsArr)
+        wepy.previewImage({
+          current: currentImg, // 当前显示图片的http链接
+          urls: previewImageUrlsArr // 需要预览的图片http链接列表
+        })
+      },
+      toggleTabs(num) {
+        // console.log(num)
+        // num = num;
+        +num === 1 ? (this.isActive =
+         true) : (this.isActive = false)
+      }
+    }
+    onLoad() {
+      console.log('onLoad')
+      api
+        .getGoodsDetail({
+          data: {
+            goods_id: 55578
+          }
+        })
+        .then(res => {
+          console.log(res)
+          this.goodsDetail = res.data
+          this.$apply()
+          let detailsData = this.goodsDetail.goods_introduce
+          /**
+           * WxParse.wxParse(bindName , type, data, target,imagePadding)
+           * 1.bindName绑定的数据名(必填)
+           * 2.type可以为html或者md(必填)
+           * 3.data为传入的具体数据(必填)
+           * 4.target为Page对象,一般为this(必填)
+           * 5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选)
+           */
+          var that = this
+          WxParse.wxParse('detailsData', 'html', detailsData, that, 5)
+        })
+    }
   }
-  onLoad() {
-    console.log('onLoad')
-  }
-}
 </script>
