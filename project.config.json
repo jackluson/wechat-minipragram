@@ -8,9 +8,10 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"appid": "wx2cc09dc955ac6479",
-	"projectname": "wepyshop",
+	"appid": "wxfb52f2d7b2f6123a",
+	"projectname": "MyUco",
 	"miniprogramRoot": "./dist",
+	"libVersion": "1.9.98",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -35,6 +36,27 @@
 					"name": "goods-detail",
 					"pathName": "pages/goods_detail",
 					"query": "goods_id=55578",
+					"scene": "1001"
+				},
+				{
+					"id": 1,
+					"name": "购物车页面",
+					"pathName": "pages/cart",
+					"query": "goods_id=55578",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "订单",
+					"pathName": "pages/orders",
+					"query": "",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "订单",
+					"pathName": "pages/orders",
+					"query": "",
 					"scene": "1001"
 				}
 			]

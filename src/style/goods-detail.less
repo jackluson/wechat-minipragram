@@ -1,6 +1,5 @@
 @import "./iconfont.less";
 // 导入富文本插件样式
-@import "../plugins/wxParse/wxParse.wxss";
 .swiper,
 .swiper-img {
     width: 750rpx;
@@ -39,8 +38,7 @@
         /* 多行文字隐藏省略号 */
         overflow: hidden;
         text-overflow: ellipsis;
-        display: -webkit-box;
-        // -webkit-box-orient: vertical;
+        display: -webkit-box; // -webkit-box-orient: vertical;
         // -webkit-line-clamp: 2;
     }
     .product-like {
@@ -222,4 +220,9 @@
     .wxParse-a {
         display: none;
     }
+}
+
+.btn-kf {
+    position: fixed;
+    opacity: 0;
 }

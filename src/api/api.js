@@ -2,7 +2,7 @@
  * @Author: Jack Lu
  * @Date: 2018-05-15 10:54:52
  * @Last Modified by: Jack Lu
- * @Last Modified time: 2018-05-17 15:09:13
+ * @Last Modified time: 2018-05-22 15:38:53
  */
 import appConfig from '../utils/appConfig'
 import wxRequest from '../utils/wxRequest'
@@ -27,11 +27,37 @@ const getHomeFloor = params => {
 const getGoodsDetail = params => {
   return wxRequest('goods/detail', params).then(res => res.data)
 }
+// todo 5.微信登录换取token
+const postUserWxLogin = params => {
+  return wxRequest('users/wxlogin', params).then(res => res.data)
+}
+// todo .-----以下API都要登录才能使用-----需要在header里面添加"Authorization" : token
+// todo 6创建订单
+const postMyOrdersCreate = params => {
+  return wxRequest('my/orders/create', params).then(res => res.data)
+}
+// todo 支付订单
+const postMyOrdersPay = params => {
+  return wxRequest('my/orders/req_unifiedorder', params).then(res => res.data)
+}
+// TODO 判断支付成功
+const postMyOrdersChkOrder = params => {
+  return wxRequest('my/orders/chkOrder', params).then(res => res.data)
+}
+// TODO 订单页面
+const postMyOrdersAll = params => {
+  return wxRequest('my/orders/all', params).then(res => res.data)
+}
 
 // 整体导出
 export default {
   getHomeSwiper,
   getHomeCatitems,
   getHomeFloor,
-  getGoodsDetail
+  getGoodsDetail,
+  postUserWxLogin,
+  postMyOrdersCreate,
+  postMyOrdersPay,
+  postMyOrdersChkOrder,
+  postMyOrdersAll
 }

@@ -1,6 +1,6 @@
 <template lang="wxml">
 <view class="container">
-<SearchFrame></SearchFrame>
+<!-- <SearchFrame></SearchFrame> -->
 <SearchBar value="{{searchText}}" :holderTitle="holderVal"></SearchBar>
   <swiper indicator-active-color="#fff"
     indicator-dots
@@ -50,7 +50,6 @@
         <!-- 第一楼 -->
           <block wx:for="{{floorList}}" wx:key="index">
 
-
           <view class="floor-head">
             <image
               class="floor-head-img"
@@ -88,7 +87,7 @@
       <text>顶部</text>
     </view>
     <view class="end">
-      <view class="iconfont icon-xiaolian"></view>
+      <view class="iconfont icon-xiao"></view>
       <text class="end-text">我是有底线的</text>
     </view>
 </view>
@@ -101,10 +100,10 @@
 <script>
   import wepy from 'wepy'
   // import 'wepy-async-function'
+  import api from '../api/api'
   import SearchBar from '../components/searchbar'
   import SearchFrame from '../components/search-bar'
   // import wxRequest from '../utils/wxRequest'
-  import api from '../api/api'
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '优购',
@@ -155,6 +154,7 @@
     }
     onPageScroll(e) {
       // console.log(e);
+      // 显示回到顶部的图标
       if (e.scrollTop > 300) {
         this.isDisplayTop = true
       } else {
@@ -172,9 +172,10 @@
     }
     // 定义方法
     methods = {
+      // 回到顶部
       toTop() {
         // console.log('tji');
-        wx.pageScrollTo({
+        wepy.pageScrollTo({
           scrollTop: 0,
           duration: 300
         })

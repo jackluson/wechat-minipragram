@@ -1,0 +1,81 @@
+<!--  -->
+<template>
+  <view class='address-wrap flex-center' @tap="chooseAddressHandle" >
+    <slot>
+      收获地址管理
+    </slot>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Address extends wepy.component {
+    props = {
+      userAddress: {
+        // 定义属性为Object类型,twoWay表示双向绑定
+        type: Object,
+        twoWay: true
+      }
+    }
+    components = {}
+
+    methods = {
+      chooseAddressHandle() {
+        wepy.chooseAddress().then(res => {
+          console.log(res)
+          this.userAddress = res
+          // 存储到本地
+          wepy.setStorageSync('address_data', this.userAddress)
+          // this.userAddress = wepy.getStorageSync('address_data') || {}
+          /* eslint-disable */
+          var {
+            provinceName,
+            cityName,
+            countyName,
+            detailInfo
+          } = this.userAddress
+          this.userAddress.userAddressMerge = `${provinceName}${cityName}${countyName}${detailInfo}`
+          this.$apply()
+        })
+      }
+    }
+
+    events = {}
+
+    watch = {}
+
+    computed = {
+      // userAddress() {
+      //   /* eslint-disable */
+      //   this.userAddress = wepy.getStorageSync('address_data') || {}
+      //   var {provinceName, cityName, countyName, detailInfo} = this.userAddress
+      //   let userAddressMsg = ``
+      //   return this.userAddress
+      // }
+    }
+
+    onLoad() {
+      this.userAddress = wepy.getStorageSync('address_data')
+      console.log( this.userAddress);
+      // 对象的解构,赋值
+      if (this.userAddress) {
+        var {
+          provinceName,
+          cityName,
+          countyName,
+          detailInfo
+        } = this.userAddress
+        this.userAddress.userAddressMerge = `${provinceName}${cityName}${countyName}${detailInfo}`
+        this.$apply()
+      }else {
+        this.userAddress = null
+      }
+
+    }
+
+    onShow() {}
+  }
+</script>
+
+<style lang='less'>
+</style>

@@ -1,22 +1,200 @@
 <template>
-<view class="container">
-  Hello wod
-</view>
+  <view class="divider"></view>
+  <block wx:if="{{cartDataArr.length > 0}}">
+  <view class="cart-list">
+    <view class="shop-head">
+      <view class="shop-head-info">
+        <view class="iconfont icon-shop flex-center icon-dianpu"></view>
+        <text class="shop-name">优购生活馆</text>
+      </view>
+    </view>
+    <block wx:for="{{cartDataArr}}" wx:key="{{index}}">
+      <view class="product-item">
+        <view class="iconfont-tap icon-xuanze {{item.selectedStatus? 'icon-xuanze-fill':''}}" @tap='changeSelectStatus({{index}})'></view>
+        <navigator url="/pages/goods_detail?goods_id={{item.goods_id}}" open-type='navigate' class="product-left">
+          <image class="product-img" src="{{item.goods_small_logo}}" />
+        </navigator>
+        <view class="product-right">
+          <navigator url="/pages/goods_detail?goods_id={{item.goods_id}}" open-type='navigate' class="product-name">
+            {{item.goods_name}}
+          </navigator>
+          <view class="product-detail">
+            <!-- 商品简介 -->
+          </view>
+          <view class="product-price">
+            <text class="product-price-symbol">￥</text>
+            <text class="product-price-integer">{{item.goods_price}}</text>
+            <text class="product-price-decimal">.00</text>
+          </view>
+          <view class="product-count-eidt" >
+            <view class="count-min disabled" @tap="changeCartNum({{index}},{{-1}})" >-</view>
+            <input class="count-number" type="number" value=" {{ item.num }} " @input='typeNum({{index}})' />
+            <view class="count-add" @tap="changeCartNum({{index}},{{1}})">+</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="bottom-space"></view>
+  <view class="fixed-bar">
+    <view class="iconfont-tap icon-xuanze {{isAllSelect? 'icon-xuanze-fill' : ''}} " @tap='changeAllSelected'></view>
+    <text class="select-all">全选</text>
+    <view class="total">
+      <view class="total">
+        <view class="total-body">
+          <view class="total-note">合计：</view>
+          <view class="product-price">
+            <text class="product-price-symbol">￥</text>
+            <text class="product-price-integer">{{totalPay}}</text>
+            <text class="product-price-decimal">.00</text>
+          </view>
+        </view>
+        <view class="total-foot">包含运费</view>
+      </view>
+    </view>
+    <view class='sure'>
+      <button class='btn-sure' type="{{isSureOrder? 'warn':'disabled'}}" @tap='goOrder'>
+            结算
+      </button>
+    </view>
+  </view>
+  </block>
+  <block wx:else>
+    <image src="/images/cart_empty@2x.png" style="width:180rpx" mode='widthFix' ></image>
+  </block>
 </template>
-
 <style lang="less">
-
+@import "../style/cart.less";
 </style>
 <script>
 import wepy from 'wepy'
 
 export default class Cart extends wepy.page {
   config = {
-    navigationBarTitleText: '优购',
+    navigationBarTitleText: '购物车',
     navigationBarBackgroundColor: '#ff2d4a'
+  }
+  data = {
+    cartDataArr: [],
+    isAllSelect: true,
+    // totalPay: 0
+    isSureOrder: false
+  }
+  methods = {
+    // 点击改变数量函数
+    changeCartNum(index, symbol) {
+      // console.log(index)
+      // console.log(symbol)
+        // symbol += 0
+      this.cartDataArr[index].num = this.cartDataArr[index].num + symbol
+      if (this.cartDataArr[index].num < 1) {
+        wepy.showModal({
+          title: '提示',
+          content: '是否删除该商品'
+        }).then(res => {
+          if (res.confirm) {
+            // console.log(index)
+            this.cartDataArr.splice(index, 1)
+          } else if (res.cancel) {
+            // console.log('用户点击取消')
+            this.cartDataArr[index].num = 1
+          }
+          this.$apply()
+        }
+      )
+      }
+    },
+    // 输入改变数量函数,这个绑定事件处理函数名称不能太长,可能报错
+    typeNum(index, event) {
+      console.log(event.detail)
+      // 先获取旧的值
+      let oldValue = this.cartDataArr[index].num
+      let inputNum = parseInt(event.detail.value)
+      console.log(inputNum)
+      if (inputNum < 1 || isNaN(inputNum)) {
+        console.log(oldValue)
+        this.cartDataArr[index].num = oldValue
+        // this.$apply()
+        return oldValue
+      } else {
+        this.cartDataArr[index].num = inputNum
+        // this.$apply()
+        return inputNum
+      }
+    },
+    // 改变选择状态
+    changeSelectStatus(index) {
+      this.cartDataArr[index].selectedStatus = !this.cartDataArr[index].selectedStatus
+      // 假设法,全选
+      this.isAllSelect = true
+      for (let i = 0; i < this.cartDataArr.length; i++) {
+        if (!this.cartDataArr[i].selectedStatus) {
+          this.isAllSelect = false
+          break
+        }
+      }
+    },
+    changeAllSelected() {
+      console.log('come')
+      // 全选反选
+      this.isAllSelect = !this.isAllSelect
+      for (let i = 0; i < this.cartDataArr.length; i++) {
+        this.cartDataArr[i].selectedStatus = this.isAllSelect
+      }
+    },
+    // 注册点击跳转到购物车
+    goOrder() {
+      // console.log('comein')
+      if (this.isSureOrder) {
+        wepy.navigateTo({
+          url: '/pages/cart_order?totalPay=' + this.totalPay
+        })
+      } else {
+        wepy.showToast({
+          title: '请选择商品',
+          icon: 'none',
+          duration: 1000
+        })
+      }
+      //  url="/pages/cart_order?totalPay={{totalPay}}"
+    }
+  }
+
+  computed = {
+    // 购物车数据改变
+    totalPay() {
+      // console.log('comein')
+      // this.cartDataArr[index].selectedStatus = !this.cartDataArr[index].selectedStatus
+      // 假设法,全选
+      this.isAllSelect = true
+      this.isSureOrder = false
+      let totalPay = 0
+      for (let i = 0; i < this.cartDataArr.length; i++) {
+        // if (this.cartDataArr[i].selectedStatus) {
+
+        // }
+        if (!this.cartDataArr[i].selectedStatus) {
+          this.isAllSelect = false
+          // break
+        } else {
+          // 计算价格
+          totalPay += this.cartDataArr[i].goods_price * this.cartDataArr[i].num
+          totalPay ? this.isSureOrder = true : this.isSureOrder = false
+        }
+      }
+      return totalPay
+    }
   }
   onLoad() {
     console.log('onLoad')
+  }
+  onShow() {
+    // 开始显示,加载本地纯属数据
+    this.cartDataArr = wepy.getStorageSync('key_cart') || []
+  }
+  onHide() {
+    // 页面跳转时更新本地存储
+    wepy.setStorageSync('key_cart', this.cartDataArr)
   }
 }
 </script>

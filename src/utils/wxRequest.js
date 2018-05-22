@@ -2,10 +2,10 @@
  * @Author: Jack Lu
  * @Date: 2018-05-15 10:22:57
  * @Last Modified by: Jack Lu
- * @Last Modified time: 2018-05-17 09:09:37
+ * @Last Modified time: 2018-05-20 09:08:02
  */
 import wepy from 'wepy'
-import 'wepy-async-function'
+// import 'wepy-async-function'
 const wxRequest = (url, params = {}) => {
   return wepy.request({
     url: wxRequest.baseUrl + url, // 开发者服务器接口地址",
